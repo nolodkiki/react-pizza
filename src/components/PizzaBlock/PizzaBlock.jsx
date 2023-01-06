@@ -1,10 +1,13 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 
 
 const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
     const [count, setCount] = useState(0)
+
+
+
 
     const [pizzaSizeIndex, setPizzaSizeIndex] = useState(0)
 
@@ -23,11 +26,11 @@ const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
             <div className="pizza-block__selector">
                 <ul>
                     {types.map((type) =>
-                        <li onClick={() => setPizzaTypeIndex(type)} className={pizzaTypeIndex === type ? 'active' : ''}>{typeNames[type]}</li>)}
+                        <li key={type} onClick={() => setPizzaTypeIndex(type)} className={pizzaTypeIndex === type ? 'active' : ''}>{typeNames[type]}</li>)}
                 </ul>
                 <ul>
                     {sizes.map((size, i) =>
-                        <li onClick={() => setPizzaSizeIndex(i)} className={pizzaSizeIndex === i ? 'active' : ''}>{size} см.</li>)}
+                        <li key={i} onClick={() => setPizzaSizeIndex(i)} className={pizzaSizeIndex === i ? 'active' : ''}>{size} см.</li>)}
                 </ul>
             </div>
             <div className="pizza-block__bottom">
