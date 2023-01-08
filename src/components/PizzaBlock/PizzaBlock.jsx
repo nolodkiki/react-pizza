@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 
 
 
 const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
     const [count, setCount] = useState(0)
-
-
-
-
+    
     const [pizzaSizeIndex, setPizzaSizeIndex] = useState(0)
 
     const [pizzaTypeIndex, setPizzaTypeIndex] = useState(0)
