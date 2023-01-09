@@ -7,19 +7,24 @@ import Sort from '../components/Sort/Sort';
 const Home = () => {
     const [items, setItems] = useState([])
     const [loader, setLoader] = useState(true)
+    const [activeCategory, setActiveCategory] = useState(0)
 
     useEffect(() => {
-        fetch('https://63b808fa4d97e82aa3cd35af.mockapi.io/react-pizzas')
+        fetch('https://63b808fa4d97e82aa3cd35af.mockapi.io/react-pizzas?category=' + activeCategory)
             .then(response => response.json())
             .then(arr => {
                 setItems(arr)
                 setLoader(false)
             })
-    }, [])
+            window.scrollTo(0, 0)
+    }, [activeCategory])
+
+
+
     return (
-        <>
+        <div className="container">
             <div className="content__top">
-                <Categories />
+                <Categories value={activeCategory} onClickCategory={(id) => setActiveCategory(id)} />
                 <Sort />
             </div>
             <h2 className="content__title">Все пиццы</h2>
@@ -30,7 +35,7 @@ const Home = () => {
                         : items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
                 }
             </div>
-        </>
+        </div>
     )
 }
 
