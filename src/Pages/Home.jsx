@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { SearchContext } from '../App';
 import Categories from '../components/Categories/Categories';
 import Pagination from '../components/Pagination/Pagination';
 import Loader from '../components/PizzaBlock/Loader';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Sort from '../components/Sort/Sort';
 
-const Home = ({searchValue}) => {
+const Home = ({}) => {
     const [items, setItems] = useState([])
     const [loader, setLoader] = useState(true)
     const [activeCategory, setActiveCategory] = useState(0)
@@ -15,13 +16,15 @@ const Home = ({searchValue}) => {
     })
     const [currentPage, setCurrentPage] = useState(1)
 
+    const {searchValue} = useContext(SearchContext)
+
+
     const category = activeCategory > 0 ? `category=${activeCategory}` : ''
     const sortBy = selectedSort.sortProperty.replace('-', '')
     const order = selectedSort.sortProperty.includes('-') ? 'asc' : 'desc'
     const search = searchValue ? `&search=${searchValue}` : ''
     const page = `page=${currentPage}`
 
-    console.log(page)
     useEffect(() => {
         fetch(`https://63b808fa4d97e82aa3cd35af.mockapi.io/react-pizzas?${page}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
             .then(response => response.json())
