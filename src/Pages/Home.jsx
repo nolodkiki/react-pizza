@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import Categories from '../components/Categories/Categories';
+import Pagination from '../components/Pagination/Pagination';
 import Loader from '../components/PizzaBlock/Loader';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Sort from '../components/Sort/Sort';
 
-const Home = () => {
+const Home = ({searchValue}) => {
     const [items, setItems] = useState([])
     const [loader, setLoader] = useState(true)
     const [activeCategory, setActiveCategory] = useState(0)
@@ -12,21 +13,24 @@ const Home = () => {
         name: 'популярности', 
         sortProperty: 'rating'
     })
+    const [currentPage, setCurrentPage] = useState(1)
 
     const category = activeCategory > 0 ? `category=${activeCategory}` : ''
     const sortBy = selectedSort.sortProperty.replace('-', '')
     const order = selectedSort.sortProperty.includes('-') ? 'asc' : 'desc'
-    console.log(order)
+    const search = searchValue ? `&search=${searchValue}` : ''
+    const page = `page=${currentPage}`
 
+    console.log(page)
     useEffect(() => {
-        fetch(`https://63b808fa4d97e82aa3cd35af.mockapi.io/react-pizzas?${category}&sortBy=${sortBy}&order=${order}`)
+        fetch(`https://63b808fa4d97e82aa3cd35af.mockapi.io/react-pizzas?${page}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
             .then(response => response.json())
             .then(arr => {
                 setItems(arr)
                 setLoader(false)
             })
             window.scrollTo(0, 0)
-    }, [activeCategory, selectedSort])
+    }, [activeCategory, selectedSort, searchValue, currentPage])
 
 
 
@@ -44,6 +48,7 @@ const Home = () => {
                         : items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
                 }
             </div>
+            <Pagination setCurrentPage={(number) => setCurrentPage(number)} />
         </div>
     )
 }

@@ -1,0 +1,28 @@
+.root {
+    margin-top: 40px;
+    li {
+        display: inline-block;
+        a {
+            cursor: pointer;
+            padding: 10px 16px;
+            margin-right: 15px;
+            line-height: 42px;
+            border: 1px solid orange;
+            border-radius: 50%;
+            transition: all 0.2s ease-in;
+
+            &:hover {
+                background-color: orange;
+                color: white;
+            }
+        }
+    }
+    :global {
+        .selected {
+            a {
+                background-color: orange;
+                color: white;
+            }
+        }
+    }
+}
