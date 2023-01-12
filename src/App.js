@@ -6,13 +6,21 @@ import { Route, Routes } from 'react-router-dom';
 import Cart from './Pages/Cart';
 import { createContext, useState } from 'react';
 
+
+
 export const SearchContext = createContext();
+
+
+
+
 
 function App() {
   const [searchValue, setSearchValue] = useState('')
 
+
+
   return (
-    <SearchContext.Provider value={{searchValue, setSearchValue}}>
+    <SearchContext.Provider value={{ searchValue, setSearchValue }}>
       <div className="wrapper">
         <Header />
         <div className="content">

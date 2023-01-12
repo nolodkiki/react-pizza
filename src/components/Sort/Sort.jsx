@@ -1,20 +1,32 @@
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { setSelectedSort } from '../../Redux/Slices/filterSlice';
 
-const Sort = ({value, onClickSort}) => {
+const list = [
+    {name: 'популярности (DESC)', sortProperty: 'rating'},
+    {name: 'популярности (ASC)', sortProperty: '-rating'},
+    {name: 'цене (DESC)', sortProperty: 'price'},
+    {name: 'цене (ASC)', sortProperty: '-price'},
+    {name: 'алфавиту (DESC)', sortProperty: 'title'},
+    {name: 'алфавиту (ASC)', sortProperty: '-title'},
+]
+
+const Sort = () => {
+    const dispatch = useDispatch()
+    const value = useSelector((state) => state.filter.sort)
+    const onClickSort = (i) => {
+        dispatch(setSelectedSort(i))
+    }
+
+
+
     const [open, setOpen] = useState(false)
-    const list = [
-        {name: 'популярности (DESC)', sortProperty: 'rating'},
-        {name: 'популярности (ASC)', sortProperty: '-rating'},
-        {name: 'цене (DESC)', sortProperty: 'price'},
-        {name: 'цене (ASC)', sortProperty: '-price'},
-        {name: 'алфавиту (DESC)', sortProperty: 'title'},
-        {name: 'алфавиту (ASC)', sortProperty: '-title'},
-    ]
+    
 
 
 
-    const onClickListItem = (i) => {
-        onClickSort(i)
+    const onClickListItem = (obj) => {
+        onClickSort(obj)
         setOpen(false)
     }
 
