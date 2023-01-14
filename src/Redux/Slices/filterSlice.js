@@ -5,8 +5,10 @@ const initialState = {
     sort: {
         name: 'популярности', 
         sortProperty: 'rating'
-    }
+    },
+    currentPage: 1
 }
+
 
 const filterSlice = createSlice({
     name: 'filters',
@@ -17,10 +19,13 @@ const filterSlice = createSlice({
         },
         setSelectedSort(state, action) {
             state.sort = action.payload
+        },
+        setCurrentPage(state, action) {
+            state.currentPage = action.payload
         }
     }
 })
 
-export const {setCategoryId, setSelectedSort} = filterSlice.actions
+export const {setCategoryId, setSelectedSort, setCurrentPage} = filterSlice.actions
 
 export default filterSlice.reducer
