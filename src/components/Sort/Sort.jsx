@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { setSelectedSort } from '../../Redux/Slices/filterSlice';
 
@@ -14,15 +14,28 @@ export const sortList = [
 const Sort = () => {
     const dispatch = useDispatch()
     const value = useSelector((state) => state.filter.sort)
-    const onClickSort = (i) => {
-        dispatch(setSelectedSort(i))
-    }
+    const sortRef = useRef()
+    
+    useEffect(() => {
+        const handClickOutsideSort = (event) => {
+            const path = event.composedPath().includes(sortRef.current)
+            if (!path) {
+                setOpen(false)
+            }
+            
+        }
+        document.body.addEventListener('click', handClickOutsideSort)
 
-
+        return () => {
+            document.body.removeEventListener('click', handClickOutsideSort)
+        }
+    }, [])
 
     const [open, setOpen] = useState(false)
     
-
+    const onClickSort = (i) => {
+        dispatch(setSelectedSort(i))
+    }
 
 
     const onClickListItem = (obj) => {
@@ -31,7 +44,7 @@ const Sort = () => {
     }
 
     return (
-        <div className="sort">
+        <div ref={sortRef} className="sort">
             <div className="sort__label">
                 <svg
                     width="10"

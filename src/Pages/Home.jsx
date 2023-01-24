@@ -1,6 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SearchContext } from '../App';
@@ -12,6 +12,7 @@ import Sort, { sortList } from '../components/Sort/Sort';
 import { setCategoryId, setCurrentPage, setFilters } from '../Redux/Slices/filterSlice';
 
 const Home = ({ }) => {
+
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
@@ -20,10 +21,9 @@ const Home = ({ }) => {
     const activeCategory = categoryId
     const selectedSort = sort.sortProperty
 
-
-    const onChangeCategory = (id) => {
+    const onChangeCategory = useCallback((id) => {
         dispatch(setCategoryId(id))
-    }
+    }, [])
 
     const onChangePage = (number) => {
         dispatch(setCurrentPage(number))
@@ -66,7 +66,6 @@ const Home = ({ }) => {
                 sortProperty: sort.sortProperty,
                 currentPage: currentPage
             })
-            console.log(queryString)
         navigate(`?${queryString}`)
         }
         
@@ -77,10 +76,8 @@ const Home = ({ }) => {
     useEffect(() => {
         if (window.location.search) {
             const params = qs.parse(window.location.search.substring(1)) // парсим URL в объект
-            console.log(params)
 
             const sort = sortList.find(obj => obj.sortProperty === params.sortProperty)
-            console.log(sort)
 
 
             dispatch(
@@ -89,6 +86,7 @@ const Home = ({ }) => {
                 })
             )
         }
+        fetchPizzas() // Пофиксить
         isSearch.current = true
     }, [])
 
